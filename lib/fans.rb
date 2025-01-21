@@ -6,7 +6,7 @@ require 'nokogiri'
 
 module Fans
   class Fetcher
-    attr_reader :url_to_name, :url_to_id, :url_to_html, :id_relations
+    attr_reader :url_to_name, :url_to_id, :id_relations
   
     def initialize
       @url_id = 0
@@ -23,6 +23,8 @@ module Fans
     end
   
     def fetch(url)
+      return url unless id_relations[url_to_id[url]].empty?
+
       uri = URI.parse(url)
       host = "#{uri.scheme}://#{uri.host}"
   
@@ -38,6 +40,8 @@ module Fans
         text = a.attributes['title']&.value&.gsub(/\s+/, "\s") if text.empty?
         id_relations[from_id][to_id] << text
       end
+
+      url
     end
 
     def local_sitemap(url)

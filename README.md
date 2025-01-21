@@ -18,7 +18,15 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'fans'
+
+fetcher = Fans::Fetcher.new
+fetcher.local_sitemap('https://terminator.fandom.com/wiki/Local_Sitemap')
+fetcher.url_to_name.each_pair do |url, name|
+  fetcher.fetch(url)
+end
+```
 
 ## Development
 
